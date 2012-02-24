@@ -10,10 +10,12 @@ Author URI: http://www.pixeldevels.com
 */ 
 
 function pdv_Yodafy($content) {
+	
 	$sentences = preg_split('/([.?!]+)/', $content, -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);
 	
 	for($i = 0; $i < count($sentences); $i++) {
-    	if($i % 2 == 0) {
+    	
+		if($i % 2 == 0) {
         	
         	$words = explode(' ', ltrim($sentences[$i]));
 
@@ -37,6 +39,7 @@ function pdv_Yodafy($content) {
 					$content .= ' Hmmm... ';
 				}
 			}
+			
         	$final .=$content;
 		}
 	}
