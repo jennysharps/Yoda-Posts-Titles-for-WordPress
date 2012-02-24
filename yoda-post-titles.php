@@ -9,43 +9,50 @@ Version: 1.0
 Author URI: http://www.pixeldevels.com
 */ 
 
-/*
-
-$string = 'Product pages for e-commerce websites are often rife with ambitious intentions: Recreate the brick-and-mortar shopping experience. Provide users with every last drop of product information. Build a brand persona. Establish a seamless checkout process???';
-
-//$string = 'Can\'t you establish a seamless checkout process???';
-
-//$string = 'New High-Quality Free Fonts!';
-
-$string = 'Custom Post Types for WordPress';
-
-echo yodafy($string);
-
-*/
-
-function pdv_Yodafy($string)
+function pdv_Yodafy($content)
 {
-	$sentences = preg_split('/([.?!]+)/', $string, -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);
-	$words = explode(' ', $sentences[0]);
+      $sentences = preg_split('/([.?!]+)/', $content, -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);
+	
+      for($i = 0; $i < count($sentences); $i++){
+      if($i % 2 == 0)
+      {
+        $words = explode(' ', ltrim($sentences[$i]));
 
-	count($sentences) > 1 ? $punctuation = $sentences[1] : $punctuation = '... yes...';
+	if(strlen($sentences[$i]) % 3 == 0) { 
+		$chosen = true; 
+	}
+
+	if(count($sentences) > 1)
+	{
+		$punctuation = $sentences[$i+1];
+	} else if($chosen)
+        {
+			$punctuation = '... yes... ';
+	}
+	
 
 	if(count($words) > 2) 
 	{
 		$subject = array_slice($words, 0, 2);
 		$predicate = array_slice($words, 2);
 
-		$yTitle = ucfirst(implode(" ", $predicate)) . ', ' . implode(" ", $subject) . $punctuation . ' ';
+		$content = ucfirst(implode(" ", $predicate)) . ', ' . implode(" ", $subject) . $punctuation . ' ';
 
-		stristr($punctuation, '?') ? $yTitle .= ' Hmmm...' : 0;
+		if(stristr($punctuation, '?'))
+		{
+			$content .= ' Hmmm... ';
+		}
 	}
+        $final .=$content;
 
-	return $yTitle;
+	
+        }
+      }
+        return $final;
 }
 
 
 /*
  * Add WP Post title filter to apply Yoda titles
- *
  */
- add_filter('single_post_title', 'pdv_Yodafy', 10, 1);
+add_filter('the_title', 'pdv_Yodafy', 50);
