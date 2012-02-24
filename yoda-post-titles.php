@@ -11,44 +11,41 @@ Author URI: http://www.pixeldevels.com
 
 function pdv_Yodafy($content)
 {
-      $sentences = preg_split('/([.?!]+)/', $content, -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);
+	$sentences = preg_split('/([.?!]+)/', $content, -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);
 	
-      for($i = 0; $i < count($sentences); $i++){
-      if($i % 2 == 0)
-      {
-        $words = explode(' ', ltrim($sentences[$i]));
+	for($i = 0; $i < count($sentences); $i++){
+    	if($i % 2 == 0)
+      	{
+        	$words = explode(' ', ltrim($sentences[$i]));
 
-	if(strlen($sentences[$i]) % 3 == 0) { 
-		$chosen = true; 
-	}
+			if(strlen($sentences[$i]) % 3 == 0) { 
+				$chosen = true; 
+			}
 
-	if(count($sentences) > 1)
-	{
-		$punctuation = $sentences[$i+1];
-	} else if($chosen)
-        {
-			$punctuation = '... yes... ';
-	}
+			if(count($sentences) > 1)
+			{
+				$punctuation = $sentences[$i+1];
+			} else if($chosen)
+			{
+				$punctuation = '... yes... ';
+			}
 	
+			if(count($words) > 2) 
+			{
+				$subject = array_slice($words, 0, 2);
+				$predicate = array_slice($words, 2);
 
-	if(count($words) > 2) 
-	{
-		$subject = array_slice($words, 0, 2);
-		$predicate = array_slice($words, 2);
+				$content = ucfirst(implode(" ", $predicate)) . ', ' . implode(" ", $subject) . $punctuation . ' ';
 
-		$content = ucfirst(implode(" ", $predicate)) . ', ' . implode(" ", $subject) . $punctuation . ' ';
-
-		if(stristr($punctuation, '?'))
-		{
-			$content .= ' Hmmm... ';
+				if(stristr($punctuation, '?'))
+				{
+					$content .= ' Hmmm... ';
+				}
+			}
+        	$final .=$content;
 		}
 	}
-        $final .=$content;
-
-	
-        }
-      }
-        return $final;
+    return $final;
 }
 
 
